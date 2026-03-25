@@ -1,0 +1,74 @@
+<!-- TopAppBar — Glassmorphism -->
+<header class="fixed top-0 w-full z-50 glass-header">
+  <div class="flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
+    <div class="flex items-center gap-4">
+      <button id="menu-toggle" class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200 md:hidden" aria-label="Toggle menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+    <a href="/" class="font-headline font-black tracking-widest text-xl md:text-2xl text-primary uppercase no-underline hover:opacity-80 transition-opacity">
+      {{ .Site.Title | truncate 20 "…" }}
+    </a>
+    <div class="flex items-center gap-2">
+      {{ if .IsTranslated }}
+        {{ range .Translations }}
+        <a href="{{ .Permalink }}" class="px-2 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-[10px] font-bold tracking-widest uppercase no-underline transition-colors" title="{{ .Language.LanguageName }}">{{ if eq .Language.Lang "ru" }}RU{{ else }}EN{{ end }}</a>
+        {{ end }}
+      {{ else }}
+        {{ range .Site.Languages }}
+          {{ if ne .Lang $.Site.Language.Lang }}
+          <a href="/{{ .Lang }}/" class="px-2 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-[10px] font-bold tracking-widest uppercase no-underline transition-colors" title="{{ .LanguageName }}">{{ if eq .Lang "ru" }}RU{{ else }}EN{{ end }}</a>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="text-secondary hover:opacity-80 transition-opacity active:scale-95 duration-200 no-underline" aria-label="SmileJet">
+        <span class="material-symbols-outlined">open_in_new</span>
+      </a>
+    </div>
+  </div>
+  <!-- Desktop nav -->
+  <nav class="hidden md:flex items-center gap-1 px-6 pb-3 max-w-6xl mx-auto overflow-x-auto no-scrollbar" aria-label="Main navigation">
+    {{ range .Site.Menus.main }}
+      {{ if hasPrefix .URL "http" }}
+        <a href="{{ .URL }}" target="_blank" rel="noopener" class="px-4 py-1.5 text-secondary hover:text-on-secondary-container rounded-full text-xs font-bold tracking-widest uppercase shrink-0 transition-colors no-underline">{{ .Name }}</a>
+      {{ else }}
+        <a href="{{ .URL }}" class="px-4 py-1.5 {{ if $.IsMenuCurrent "main" . }}bg-primary text-on-primary{{ else }}text-on-surface-variant hover:bg-surface-container-highest{{ end }} rounded-full text-xs font-bold tracking-widest uppercase shrink-0 transition-colors no-underline">{{ .Name }}</a>
+      {{ end }}
+    {{ end }}
+  </nav>
+  <!-- Mobile nav (toggled) -->
+  <nav id="mobile-nav" class="hidden flex-col gap-0 px-6 pb-4 md:hidden" aria-label="Mobile navigation">
+    {{ range .Site.Menus.main }}
+      <a href="{{ .URL }}"{{ if hasPrefix .URL "http" }} target="_blank" rel="noopener"{{ end }} class="py-3 text-on-surface-variant hover:text-primary font-bold text-sm tracking-wide uppercase no-underline border-b border-surface-container-high transition-colors">{{ .Name }}</a>
+    {{ end }}
+  </nav>
+</header>
+
+<!-- BottomNavBar — Mobile only -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 glass-bottom z-50 rounded-t-[24px] shadow-xl md:hidden">
+  <a href="/" class="flex flex-col items-center justify-center {{ if .IsHome }}text-secondary scale-110{{ else }}text-primary/60 hover:text-secondary{{ end }} transition-transform no-underline">
+    <span class="material-symbols-outlined" {{ if .IsHome }}style="font-variation-settings: 'FILL' 1;"{{ end }}>home</span>
+    <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+  </a>
+  <a href="/clinics/" class="flex flex-col items-center justify-center {{ if eq .Section "clinics" }}text-secondary scale-110{{ else }}text-primary/60 hover:text-secondary{{ end }} transition-transform no-underline">
+    <span class="material-symbols-outlined" {{ if eq .Section "clinics" }}style="font-variation-settings: 'FILL' 1;"{{ end }}>local_hospital</span>
+    <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Clinics</span>
+  </a>
+  <a href="/treatments/" class="flex flex-col items-center justify-center {{ if eq .Section "treatments" }}text-secondary scale-110{{ else }}text-primary/60 hover:text-secondary{{ end }} transition-transform no-underline">
+    <span class="material-symbols-outlined" {{ if eq .Section "treatments" }}style="font-variation-settings: 'FILL' 1;"{{ end }}>medical_services</span>
+    <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Treatments</span>
+  </a>
+  <a href="/posts/" class="flex flex-col items-center justify-center {{ if eq .Section "posts" }}text-secondary scale-110{{ else }}text-primary/60 hover:text-secondary{{ end }} transition-transform no-underline">
+    <span class="material-symbols-outlined" {{ if eq .Section "posts" }}style="font-variation-settings: 'FILL' 1;"{{ end }}>article</span>
+    <span class="text-[10px] font-bold uppercase tracking-widest mt-1">Posts</span>
+  </a>
+</nav>
+
+<!-- Mobile menu toggle script -->
+<script>
+document.getElementById('menu-toggle')?.addEventListener('click', function() {
+  const nav = document.getElementById('mobile-nav');
+  nav.classList.toggle('hidden');
+  nav.classList.toggle('flex');
+});
+</script>

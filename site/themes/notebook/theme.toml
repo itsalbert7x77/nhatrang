@@ -1,0 +1,9 @@
+name = "Notebook"
+license = "MIT"
+licenselink = ""
+description = "A notebook-style theme for Nha Trang Dental Guide"
+tags = ["notebook", "seo", "dental", "tourism"]
+
+[author]
+  name = "SmileJet"
+  homepage = "https://smilejet.app"

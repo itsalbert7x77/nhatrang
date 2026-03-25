@@ -1,0 +1,52 @@
+<!-- Preconnect for external resources -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
+<meta name="author" content="{{ .Site.Params.author }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- Open Graph -->
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="{{ .Site.Params.locale }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+
+<!-- OG Image -->
+{{ with .Params.featured_image }}
+<meta property="og:image" content="{{ . }}">
+<meta name="twitter:image" content="{{ . }}">
+{{ end }}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+
+<!-- Geo Tags for local SEO -->
+<meta name="geo.region" content="VN-56">
+<meta name="geo.placename" content="Nha Trang, Khanh Hoa, Vietnam">
+<meta name="geo.position" content="12.2388;109.1967">
+<meta name="ICBM" content="12.2388, 109.1967">
+
+<!-- Hreflang for multilingual AI and search engines -->
+{{ if .IsTranslated }}
+{{ range .Translations }}
+<link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}">
+{{ end }}
+<link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}">
+{{ end }}
+<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">
+
+<!-- IndexNow for Bing Copilot -->
+<meta name="indexnow-key" content="a77bd2a9962e42d9a8033d3e6087a686">
+
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="/index.xml">
+
+{{ template "_internal/google_analytics.html" . }}

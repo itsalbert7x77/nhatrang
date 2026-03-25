@@ -1,0 +1,48 @@
+<!-- Footer -->
+<footer class="bg-surface-container-low py-16 px-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Editorial quote -->
+    <div class="text-center mb-12">
+      <span class="material-symbols-outlined text-secondary text-5xl mb-4 opacity-40 block">format_quote</span>
+      <p class="font-headline text-xl md:text-2xl font-bold italic text-on-surface-variant leading-tight max-w-3xl mx-auto">
+        "Your smile is the best souvenir from Nha Trang — verified clinics, real prices, one coastal paradise."
+      </p>
+      <div class="mt-6 flex items-center justify-center gap-4">
+        <div class="h-px w-8 bg-outline-variant"></div>
+        <span class="font-bold tracking-widest uppercase text-xs text-on-surface-variant">Nha Trang Dental Guide</span>
+        <div class="h-px w-8 bg-outline-variant"></div>
+      </div>
+    </div>
+
+    <!-- Links -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div>
+        <h4 class="font-headline font-bold text-sm tracking-widest uppercase text-secondary mb-4">Explore</h4>
+        <div class="flex flex-col gap-2">
+          <a href="/clinics/" class="text-on-surface-variant hover:text-primary text-sm no-underline transition-colors">Dental Clinics</a>
+          <a href="/treatments/" class="text-on-surface-variant hover:text-primary text-sm no-underline transition-colors">Treatments & Pricing</a>
+          <a href="/posts/" class="text-on-surface-variant hover:text-primary text-sm no-underline transition-colors">Travel & Dental Tips</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-headline font-bold text-sm tracking-widest uppercase text-secondary mb-4">SmileJet</h4>
+        <div class="flex flex-col gap-2">
+          <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="text-on-surface-variant hover:text-primary text-sm no-underline transition-colors">Browse All Clinics</a>
+          <a href="{{ .Site.Params.mainSite }}/destination/nha-trang" target="_blank" rel="noopener" class="text-on-surface-variant hover:text-primary text-sm no-underline transition-colors">Book Nha Trang Dental</a>
+          <a href="{{ .Site.Params.mainSite }}/cost-of-dental-implants-in-vietnam/" target="_blank" rel="noopener" class="text-on-surface-variant hover:text-primary text-sm no-underline transition-colors">Vietnam Implant Costs</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-headline font-bold text-sm tracking-widest uppercase text-secondary mb-4">About</h4>
+        <p class="text-on-surface-variant text-sm leading-relaxed">
+          Independent dental tourism guide for Nha Trang, Vietnam. Verified clinic data, real pricing, honest reviews. Powered by <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="text-primary font-bold no-underline hover:text-secondary transition-colors">{{ .Site.Params.mainSiteName }}</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center text-on-surface-variant/60 text-xs tracking-wide">
+      &copy; {{ now.Year }} <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="text-primary no-underline hover:text-secondary">{{ .Site.Params.mainSiteName }}</a> &mdash; Nha Trang Dental Guide
+    </div>
+  </div>
+</footer>

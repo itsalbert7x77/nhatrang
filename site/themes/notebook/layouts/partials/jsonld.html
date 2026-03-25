@@ -1,0 +1,221 @@
+{{/* ---- WebSite Schema (all pages) ---- */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ .Site.Title }}",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "SmileJet",
+    "url": "https://smilejet.app",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://smilejet.app/logo.png"
+    },
+    "sameAs": [
+      "https://www.facebook.com/smilejet",
+      "https://www.instagram.com/smilejet",
+      "https://www.linkedin.com/company/smilejet",
+      "https://www.youtube.com/@smilejet",
+      "https://x.com/smilejet"
+    ]
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ .Site.BaseURL }}search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{{/* ---- BreadcrumbList (all pages) ---- */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "SmileJet",
+      "item": "https://smilejet.app"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Vietnam",
+      "item": "https://smilejet.app/destination/vietnam"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Nha Trang Dental Guide",
+      "item": "{{ .Site.BaseURL }}"
+    }{{ if not .IsHome }},
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{ .Title }}",
+      "item": "{{ .Permalink }}"
+    }{{ end }}
+  ]
+}
+</script>
+
+{{/* ---- Article Schema (posts) ---- */}}
+{{ if and .IsPage (eq .Section "posts") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ .Title }}",
+  "description": "{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | truncate 160 }}{{ end }}",
+  "url": "{{ .Permalink }}",
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "author": {
+    "@type": "Person",
+    "name": "SmileJet Editorial Team",
+    "jobTitle": "Dental Tourism Advisors",
+    "url": "https://smilejet.app/about",
+    "sameAs": [
+      "https://www.linkedin.com/company/smilejet"
+    ],
+    "affiliation": {
+      "@type": "Organization",
+      "name": "SmileJet",
+      "url": "https://smilejet.app"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SmileJet",
+    "url": "https://smilejet.app",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://smilejet.app/logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ .Permalink }}"
+  }{{ with $.Params.featured_image }},
+  "image": "{{ . }}"{{ end }}{{ with .Params.keywords }},
+  "keywords": "{{ delimit . ", " }}"{{ end }}
+}
+</script>
+{{ end }}
+
+{{/* ---- MedicalBusiness / Dentist Schema (clinic detail pages only) ---- */}}
+{{ if and .IsPage (eq .Section "clinics") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": "{{ .Params.clinic_name | default .Title }}",
+  "description": "{{ .Description }}",
+  "url": "{{ .Permalink }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ .Params.address }}",
+    "addressLocality": "Nha Trang",
+    "addressRegion": "Khanh Hoa",
+    "addressCountry": "VN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": {{ .Params.lat | default "12.2388" }},
+    "longitude": {{ .Params.lng | default "109.1967" }}
+  },
+  "telephone": "{{ .Params.phone | default "" }}",
+  "priceRange": "{{ .Params.price_range | default "$-$$" }}",
+  "openingHours": "{{ .Params.hours | default "Mo-Sa 08:00-18:00" }}"{{ with .Params.rating }},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ . }}",
+    "reviewCount": "{{ $.Params.review_count | default "10" }}",
+    "bestRating": "5"
+  }{{ end }},
+  "availableService": [{{ range $i, $s := .Params.services }}{{ if $i }},{{ end }}
+    {
+      "@type": "MedicalProcedure",
+      "name": "{{ $s }}"
+    }{{ end }}
+  ],
+  "medicalSpecialty": "Dentistry",
+  "isAcceptingNewPatients": true
+}
+</script>
+{{ end }}
+
+{{/* ---- MedicalProcedure Schema (treatment detail pages only) ---- */}}
+{{ if and .IsPage (eq .Section "treatments") }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "name": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "url": "{{ .Permalink }}",
+  "about": {
+    "@type": "MedicalProcedure",
+    "name": "{{ .Params.treatment_name | default .Title }}",
+    "procedureType": "{{ .Params.procedure_type | default "TherapeuticProcedure" }}",
+    "bodyLocation": "{{ .Params.body_location | default "Mouth" }}",
+    "howPerformed": "{{ .Params.how_performed | default "" }}",
+    "preparation": "{{ .Params.preparation | default "" }}",
+    "status": "https://schema.org/ActiveActionStatus"
+  },
+  "mainEntity": {
+    "@type": "MedicalCondition",
+    "name": "{{ .Params.condition | default "Dental condition" }}",
+    "associatedAnatomy": {
+      "@type": "AnatomicalStructure",
+      "name": "Teeth"
+    }
+  },
+  "lastReviewed": "{{ .Lastmod.Format "2006-01-02" }}",
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "author": {
+    "@type": "Person",
+    "name": "SmileJet Editorial Team",
+    "jobTitle": "Dental Tourism Advisors",
+    "url": "https://smilejet.app/about",
+    "sameAs": [
+      "https://www.linkedin.com/company/smilejet"
+    ],
+    "affiliation": {
+      "@type": "Organization",
+      "name": "SmileJet",
+      "url": "https://smilejet.app"
+    }
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".treatment-summary", ".price-table", ".faq-section"]
+  }
+}
+</script>
+{{ end }}
+
+{{/* ---- FAQPage Schema (pages with non-empty faqs param) ---- */}}
+{{ with .Params.faqs }}{{ if and (gt (len .) 0) (index . 0).q }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{{ range $i, $faq := . }}{{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $faq.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $faq.a }}"
+      }
+    }{{ end }}
+  ]
+}
+</script>
+{{ end }}{{ end }}

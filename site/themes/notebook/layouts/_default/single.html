@@ -1,0 +1,121 @@
+{{ define "main" }}
+<!-- Breadcrumb -->
+<div class="px-6 max-w-3xl mx-auto pt-4">
+  <nav class="flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-on-surface-variant/60 overflow-x-auto no-scrollbar" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-primary no-underline transition-colors">Home</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    {{ if .Section }}
+    <a href="/{{ .Section }}/" class="hover:text-primary no-underline transition-colors">{{ .Section | humanize | title }}</a>
+    <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+    {{ end }}
+    <span class="text-on-surface truncate">{{ .Title | truncate 40 }}</span>
+  </nav>
+</div>
+
+<article class="px-6 max-w-3xl mx-auto">
+  <!-- Article Header -->
+  <header class="mt-8 mb-10">
+    {{ with .Params.tags }}
+    <div class="flex flex-wrap gap-2 mb-4">
+      {{ range first 3 . }}
+      <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold tracking-[0.15em] uppercase">{{ . }}</span>
+      {{ end }}
+    </div>
+    {{ end }}
+    <h1 class="font-headline text-3xl md:text-5xl font-black tracking-tighter leading-[1.1] mb-4">{{ .Title }}</h1>
+    {{ with .Description }}
+    <p class="text-on-surface-variant text-lg md:text-xl font-medium leading-relaxed mb-6">{{ . }}</p>
+    {{ end }}
+    <div class="flex items-center gap-4 text-on-surface-variant/60">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
+          <span class="text-[10px] font-bold text-primary">SJ</span>
+        </div>
+        <div class="flex flex-col">
+          <a href="https://smilejet.app/about" rel="author" class="text-xs font-bold no-underline text-on-surface hover:text-primary transition-colors">SmileJet Editorial Team</a>
+          <span class="text-[10px] text-on-surface-variant/50">Dental Tourism Advisors</span>
+        </div>
+      </div>
+      {{ with .Date }}<span class="text-xs">{{ .Format "Jan 2, 2006" }}</span>{{ end }}
+      {{ with .ReadingTime }}<span class="text-xs">{{ . }} min read</span>{{ end }}
+      {{ if and .Lastmod (ne .Lastmod .Date) }}<span class="text-xs" title="Last updated">Updated {{ .Lastmod.Format "Jan 2, 2006" }}</span>{{ end }}
+    </div>
+  </header>
+
+  <!-- Featured Image -->
+  {{ with .Params.featured_image }}
+  <div class="relative w-full aspect-[21/9] rounded-xl overflow-hidden mb-10 editorial-shadow">
+    <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover" loading="eager">
+  </div>
+  {{ end }}
+
+  <!-- Table of Contents -->
+  {{ if and (gt .WordCount 500) (.TableOfContents) }}
+  <div class="toc mb-10">
+    <div class="toc-title">In This Guide</div>
+    {{ .TableOfContents }}
+  </div>
+  {{ end }}
+
+  <!-- Article Content -->
+  <div class="prose treatment-summary">
+    {{ .Content }}
+  </div>
+
+  <!-- FAQ Section from front matter -->
+  {{ with .Params.faqs }}
+  <section class="faq-section mt-12 mb-8 bg-surface-container-low rounded-xl p-8" id="faq">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="material-symbols-outlined text-secondary">help</span>
+      <h2 class="font-headline text-2xl font-bold tracking-tight !mt-0 !mb-0">Frequently Asked Questions</h2>
+    </div>
+    {{ range . }}
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="material-symbols-outlined text-secondary text-lg shrink-0 mt-0.5">expand_more</span>
+        {{ .q }}
+      </div>
+      <div class="faq-a">{{ .a }}</div>
+    </div>
+    {{ end }}
+  </section>
+  {{ end }}
+
+  <!-- SmileJet CTA -->
+  <div class="bg-primary rounded-2xl p-8 md:p-10 text-center my-12">
+    <h3 class="font-headline text-2xl font-bold text-on-primary mb-3">Ready to book your dental treatment?</h3>
+    <p class="text-on-primary/80 mb-6">Compare verified Nha Trang clinics with real pricing at SmileJet</p>
+    <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="inline-flex px-8 py-3 bg-on-primary text-primary rounded-full font-bold text-sm tracking-wide items-center gap-2 hover:opacity-90 active:scale-95 transition-all no-underline">
+      Explore SmileJet
+      <span class="material-symbols-outlined text-sm">arrow_forward</span>
+    </a>
+  </div>
+</article>
+
+<!-- Related Content -->
+{{ $related := .Site.RegularPages.Related . | first 3 }}
+{{ with $related }}
+<section class="bg-surface-container-low py-16 px-6">
+  <div class="max-w-3xl mx-auto">
+    <span class="text-secondary font-bold text-xs tracking-widest uppercase mb-1 block">Keep Reading</span>
+    <h3 class="font-headline text-2xl font-bold tracking-tight mb-8">Related Guides</h3>
+    <div class="flex flex-col gap-6">
+      {{ range . }}
+      <article class="bg-surface-container-lowest rounded-xl p-6 editorial-shadow flex gap-5 group items-center">
+        <div class="w-16 h-16 shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary/40 text-2xl">{{ if eq .Section "clinics" }}local_hospital{{ else if eq .Section "treatments" }}medical_services{{ else }}article{{ end }}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <span class="text-secondary text-[9px] font-extrabold tracking-widest uppercase mb-1 block">{{ .Section | humanize }}</span>
+          <h5 class="font-headline text-lg font-bold leading-tight group-hover:text-primary transition-colors">
+            <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+          </h5>
+          <p class="text-on-surface-variant/70 text-xs mt-1 line-clamp-1">{{ .Description }}</p>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}

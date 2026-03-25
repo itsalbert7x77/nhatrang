@@ -1,0 +1,188 @@
+{{ define "main" }}
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $treatments := where .Site.RegularPages "Section" "treatments" }}
+{{ $clinics := where .Site.RegularPages "Section" "clinics" }}
+{{ $featured := first 1 ($posts.ByDate.Reverse) }}
+{{ $recent := after 1 (first 4 ($posts.ByDate.Reverse)) }}
+
+<!-- Hero Section: Featured Post -->
+{{ with index $featured 0 }}
+<section class="px-6 mb-20">
+  <div class="relative w-full aspect-[4/5] md:aspect-[21/9] rounded-xl overflow-hidden group max-w-6xl mx-auto">
+    {{ with .Params.featured_image }}
+    <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="eager">
+    {{ else }}
+    <div class="w-full h-full bg-gradient-to-br from-primary to-primary-container"></div>
+    {{ end }}
+    <div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
+    <div class="absolute bottom-0 left-0 p-8 md:p-12 max-w-2xl">
+      <span class="inline-block px-3 py-1 mb-4 text-[10px] font-bold tracking-[0.2em] text-on-secondary-container bg-secondary-container rounded-full uppercase">Featured</span>
+      <h2 class="font-headline text-3xl md:text-5xl text-surface font-bold tracking-tighter mb-4 leading-[1.1]">{{ .Title }}</h2>
+      <p class="text-surface/90 text-base md:text-lg mb-6 font-medium line-clamp-2 md:line-clamp-none">{{ .Description }}</p>
+      <a href="{{ .Permalink }}" class="inline-flex px-8 py-3 bg-primary text-on-primary rounded-full font-bold text-sm tracking-wide items-center gap-2 hover:opacity-90 active:scale-95 transition-all no-underline">
+        Read Story
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Category Chips -->
+<nav class="px-6 mb-12 flex items-center gap-3 overflow-x-auto no-scrollbar max-w-6xl mx-auto">
+  <a href="/posts/" class="px-6 py-2 bg-primary text-on-primary rounded-full text-xs font-bold tracking-widest uppercase shrink-0 no-underline">All Posts</a>
+  <a href="/clinics/" class="px-6 py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-xs font-bold tracking-widest uppercase shrink-0 transition-colors no-underline">Clinics</a>
+  <a href="/treatments/" class="px-6 py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-xs font-bold tracking-widest uppercase shrink-0 transition-colors no-underline">Treatments</a>
+  {{ range first 5 .Site.Taxonomies.tags.ByCount }}
+    <a href="{{ .Page.Permalink }}" class="px-6 py-2 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-xs font-bold tracking-widest uppercase shrink-0 transition-colors no-underline">{{ .Page.Title }}</a>
+  {{ end }}
+</nav>
+
+<!-- Recent Posts: Bento Grid -->
+<section class="px-6 mb-20 max-w-6xl mx-auto">
+  <div class="flex justify-between items-end mb-8">
+    <div>
+      <span class="text-secondary font-bold text-xs tracking-widest uppercase mb-1 block">The Journal</span>
+      <h3 class="font-headline text-3xl font-bold tracking-tight">Recent Perspectives</h3>
+    </div>
+    <a href="/posts/" class="text-primary font-bold text-sm flex items-center gap-1 hover:underline no-underline">
+      View Archive
+      <span class="material-symbols-outlined text-sm">east</span>
+    </a>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+    <!-- Large Card — first recent post -->
+    {{ with index $featured 0 }}
+    <article class="md:col-span-7 bg-surface-container-low rounded-xl overflow-hidden editorial-shadow flex flex-col group">
+      <div class="relative aspect-video overflow-hidden bg-gradient-to-br from-primary/20 to-tertiary/20">
+        {{ with .Params.featured_image }}
+        <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+        {{ end }}
+        <div class="absolute top-4 left-4">
+          <span class="bg-surface/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold tracking-widest text-on-surface uppercase">{{ .Section | humanize }}</span>
+        </div>
+      </div>
+      <div class="p-8">
+        <time class="text-on-surface-variant/60 text-[10px] font-bold tracking-widest uppercase mb-3 block">{{ .Date.Format "January 2, 2006" }}</time>
+        <h4 class="font-headline text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+          <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+        </h4>
+        <p class="text-on-surface-variant leading-relaxed mb-6 line-clamp-3">{{ .Description }}</p>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[10px] font-bold text-on-secondary-container">SJ</div>
+          <span class="text-xs font-bold">SmileJet Guide</span>
+        </div>
+      </div>
+    </article>
+    {{ end }}
+    <!-- Small Vertical Stack — next 3 posts -->
+    <div class="md:col-span-5 flex flex-col gap-8">
+      {{ range $recent }}
+      <article class="bg-surface-container-lowest rounded-xl p-6 editorial-shadow flex gap-5 group items-center">
+        <div class="w-24 h-24 shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+          {{ with .Params.featured_image }}
+          <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          {{ else }}
+          <span class="material-symbols-outlined text-primary/40 text-3xl">{{ if eq $.Section "clinics" }}local_hospital{{ else if eq $.Section "treatments" }}medical_services{{ else }}article{{ end }}</span>
+          {{ end }}
+        </div>
+        <div class="flex-1 min-w-0">
+          <span class="text-secondary text-[9px] font-extrabold tracking-widest uppercase mb-1 block">{{ .Section | humanize }}</span>
+          <h5 class="font-headline text-lg font-bold leading-tight group-hover:text-primary transition-colors">
+            <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+          </h5>
+          <p class="text-on-surface-variant/70 text-xs mt-1">{{ .ReadingTime }} min read</p>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Treatments Section (Tonal Shift) -->
+<section class="bg-surface-container-low py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center gap-4 mb-12">
+      <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+      <h3 class="font-headline text-3xl font-bold tracking-tight">Dental Treatments</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {{ range first 6 ($treatments.ByTitle) }}
+      <a href="{{ .Permalink }}" class="relative rounded-xl overflow-hidden aspect-[3/4] group block no-underline bg-gradient-to-br from-primary to-primary-container">
+        <div class="absolute inset-0 bg-gradient-to-t from-on-surface/90 via-on-surface/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 p-6">
+          <h4 class="text-surface font-headline text-xl font-bold">{{ .Title }}</h4>
+          {{ with .Description }}<p class="text-surface/70 text-xs mt-2 line-clamp-2">{{ . }}</p>{{ end }}
+        </div>
+      </a>
+      {{ end }}
+    </div>
+    {{ if gt (len $treatments) 6 }}
+    <div class="text-center mt-8">
+      <a href="/treatments/" class="inline-flex px-8 py-3 bg-primary text-on-primary rounded-full font-bold text-sm tracking-wide items-center gap-2 hover:opacity-90 active:scale-95 transition-all no-underline">
+        View All Treatments
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+</section>
+
+<!-- Clinics Section -->
+<section class="py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-end mb-8">
+      <div>
+        <span class="text-secondary font-bold text-xs tracking-widest uppercase mb-1 block">Verified Clinics</span>
+        <h3 class="font-headline text-3xl font-bold tracking-tight">Nha Trang Dental Clinics</h3>
+      </div>
+      <a href="/clinics/" class="text-primary font-bold text-sm flex items-center gap-1 hover:underline no-underline">
+        View All
+        <span class="material-symbols-outlined text-sm">east</span>
+      </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {{ range $clinics.ByTitle }}
+      <article class="bg-surface-container-lowest rounded-xl p-8 editorial-shadow group">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary">local_hospital</span>
+          </div>
+          <div>
+            <h4 class="font-headline text-lg font-bold group-hover:text-primary transition-colors">
+              <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+            </h4>
+            {{ with .Params.rating }}<div class="text-secondary text-xs font-bold">★ {{ . }}/5</div>{{ end }}
+          </div>
+        </div>
+        <p class="text-on-surface-variant text-sm leading-relaxed line-clamp-3 mb-4">{{ .Description }}</p>
+        {{ with .Params.services }}
+        <div class="flex flex-wrap gap-2">
+          {{ range first 3 . }}
+          <span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">{{ . }}</span>
+          {{ end }}
+        </div>
+        {{ end }}
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- SmileJet CTA -->
+<section class="py-24 px-6 text-center max-w-4xl mx-auto">
+  <span class="material-symbols-outlined text-secondary text-5xl mb-6 opacity-40">flight</span>
+  <p class="font-headline text-2xl md:text-4xl font-bold text-on-surface-variant leading-tight mb-8">
+    Discover verified dental clinics across Vietnam with real pricing and honest reviews.
+  </p>
+  <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="inline-flex px-10 py-4 bg-secondary text-on-secondary rounded-full font-bold text-sm tracking-wide items-center gap-2 hover:opacity-90 active:scale-95 transition-all no-underline">
+    Explore SmileJet
+    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+  </a>
+  <div class="mt-8 flex items-center justify-center gap-4">
+    <div class="h-px w-8 bg-outline-variant"></div>
+    <span class="font-bold tracking-widest uppercase text-xs text-on-surface-variant/60">2,000+ Verified Clinics</span>
+    <div class="h-px w-8 bg-outline-variant"></div>
+  </div>
+</section>
+{{ end }}

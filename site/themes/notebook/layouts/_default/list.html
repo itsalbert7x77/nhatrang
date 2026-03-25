@@ -1,0 +1,127 @@
+{{ define "main" }}
+<div class="px-6 max-w-6xl mx-auto">
+  <!-- Section Header -->
+  <header class="mt-4 mb-12">
+    <span class="text-secondary font-bold text-xs tracking-widest uppercase mb-2 block">
+      {{ if eq .Section "clinics" }}Verified Clinics{{ else if eq .Section "treatments" }}Treatment Guides{{ else if eq .Section "posts" }}The Journal{{ else }}Explore{{ end }}
+    </span>
+    <h1 class="font-headline text-4xl md:text-5xl font-black tracking-tighter leading-[1.1] mb-4">{{ .Title }}</h1>
+    {{ with .Content }}
+    <div class="text-on-surface-variant text-lg max-w-2xl leading-relaxed">{{ . }}</div>
+    {{ end }}
+  </header>
+
+  {{ if eq .Section "clinics" }}
+  <!-- Clinics Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+    {{ range .Pages.ByTitle }}
+    <article class="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow group">
+      {{ with .Params.featured_image }}
+      <div class="aspect-video overflow-hidden">
+        <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+      </div>
+      {{ end }}
+      <div class="p-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">local_hospital</span>
+        </div>
+        <div>
+          <h3 class="font-headline text-lg font-bold group-hover:text-primary transition-colors">
+            <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+          </h3>
+          {{ with .Params.rating }}<div class="text-secondary text-xs font-bold">★ {{ . }}/5</div>{{ end }}
+        </div>
+      </div>
+      <p class="text-on-surface-variant text-sm leading-relaxed line-clamp-3 mb-4">{{ .Description }}</p>
+      {{ with .Params.services }}
+      <div class="flex flex-wrap gap-2">
+        {{ range first 3 . }}
+        <span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">{{ . }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  {{ else if eq .Section "treatments" }}
+  <!-- Treatments Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+    {{ range .Pages.ByTitle }}
+    <article class="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow group">
+      {{ with .Params.featured_image }}
+      <div class="aspect-video overflow-hidden">
+        <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
+      </div>
+      {{ else }}
+      <div class="h-3 bg-gradient-to-r from-primary to-primary-container"></div>
+      {{ end }}
+      <div class="p-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="material-symbols-outlined text-secondary">medical_services</span>
+          <h3 class="font-headline text-xl font-bold group-hover:text-primary transition-colors">
+            <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+          </h3>
+        </div>
+        <p class="text-on-surface-variant text-sm leading-relaxed line-clamp-3 mb-4">{{ .Description }}</p>
+        {{ with .ReadingTime }}
+        <span class="text-on-surface-variant/60 text-xs font-bold tracking-widest uppercase">{{ . }} min read</span>
+        {{ end }}
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  {{ else }}
+  <!-- Posts List -->
+  <div class="space-y-0 mb-16">
+    {{ range .Pages.ByDate.Reverse }}
+    <article class="py-8 border-b border-surface-container-high group">
+      <div class="flex gap-6 items-start">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-3 mb-2">
+            <time class="text-on-surface-variant/60 text-[10px] font-bold tracking-widest uppercase">{{ .Date.Format "Jan 2, 2006" }}</time>
+            {{ with .ReadingTime }}<span class="text-on-surface-variant/40 text-[10px] font-bold tracking-widest uppercase">{{ . }} min</span>{{ end }}
+          </div>
+          <h3 class="font-headline text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
+            <a href="{{ .Permalink }}" class="no-underline text-on-surface hover:text-primary">{{ .Title }}</a>
+          </h3>
+          {{ with .Description }}
+          <p class="text-on-surface-variant text-sm leading-relaxed line-clamp-2">{{ . }}</p>
+          {{ end }}
+          {{ with .Params.tags }}
+          <div class="flex flex-wrap gap-2 mt-3">
+            {{ range first 3 . }}
+            <span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">{{ . }}</span>
+            {{ end }}
+          </div>
+          {{ end }}
+        </div>
+        <div class="w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+          {{ with .Params.featured_image }}
+          <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          {{ else }}
+          <span class="material-symbols-outlined text-primary/30 text-3xl">article</span>
+          {{ end }}
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  {{ template "_internal/pagination.html" . }}
+  {{ end }}
+
+  <!-- SmileJet CTA -->
+  <div class="bg-primary rounded-2xl p-8 md:p-10 text-center mb-16">
+    <h3 class="font-headline text-2xl font-bold text-on-primary mb-3">Looking for a verified dental clinic?</h3>
+    <p class="text-on-primary/80 mb-6">Browse 2,000+ verified clinics with real pricing on SmileJet</p>
+    <a href="{{ .Site.Params.mainSite }}" target="_blank" rel="noopener" class="inline-flex px-8 py-3 bg-on-primary text-primary rounded-full font-bold text-sm tracking-wide items-center gap-2 hover:opacity-90 active:scale-95 transition-all no-underline">
+      Explore SmileJet
+      <span class="material-symbols-outlined text-sm">arrow_forward</span>
+    </a>
+  </div>
+</div>
+{{ end }}

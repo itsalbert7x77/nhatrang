@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="light" lang="{{ .Site.Language.Lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#565f48">
+{{ partial "head.html" . }}
+{{ partial "jsonld.html" . }}
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-secondary-fixed-variant": "#71361c",
+        "surface-bright": "#fcfaed",
+        "secondary-fixed-dim": "#ffb599",
+        "secondary-fixed": "#ffdbce",
+        "surface-container-low": "#f6f4e8",
+        "on-secondary-fixed": "#370e00",
+        "error": "#ba1a1a",
+        "surface-dim": "#dcdacf",
+        "primary-container": "#6f785f",
+        "on-primary": "#ffffff",
+        "outline-variant": "#c6c7bd",
+        "inverse-surface": "#303129",
+        "on-tertiary-fixed": "#221b0b",
+        "primary": "#565f48",
+        "inverse-primary": "#c1caad",
+        "on-tertiary-container": "#fffbff",
+        "on-error": "#ffffff",
+        "surface-container-highest": "#e5e3d7",
+        "on-secondary": "#ffffff",
+        "tertiary-container": "#7f735e",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#171e0b",
+        "primary-fixed": "#dde6c8",
+        "surface-tint": "#59614a",
+        "surface-variant": "#e5e3d7",
+        "outline": "#76786f",
+        "surface-container-high": "#eae8dd",
+        "on-primary-fixed-variant": "#414a34",
+        "secondary-container": "#ffa988",
+        "primary-fixed-dim": "#c1caad",
+        "on-tertiary-fixed-variant": "#4f4633",
+        "surface-container": "#f0eee2",
+        "tertiary": "#655b47",
+        "on-secondary-container": "#793c22",
+        "surface-container-lowest": "#ffffff",
+        "on-primary-container": "#faffe9",
+        "tertiary-fixed": "#f0e1c7",
+        "inverse-on-surface": "#f3f1e5",
+        "on-tertiary": "#ffffff",
+        "on-background": "#1b1c15",
+        "secondary": "#8e4c31",
+        "tertiary-fixed-dim": "#d3c5ac",
+        "on-surface": "#1b1c15",
+        "on-surface-variant": "#454840",
+        "surface": "#fcfaed",
+        "error-container": "#ffdad6",
+        "background": "#fcfaed"
+      },
+      fontFamily: {
+        "headline": ["Epilogue", "sans-serif"],
+        "body": ["Manrope", "sans-serif"],
+        "label": ["Manrope", "sans-serif"]
+      },
+      borderRadius: {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
+        "full": "9999px"
+      },
+    },
+  },
+}
+</script>
+<style>
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.editorial-shadow {
+  box-shadow: 0 32px 64px -12px rgba(27, 28, 21, 0.06);
+}
+.glass-header {
+  background: rgba(252, 250, 237, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.glass-bottom {
+  background: rgba(252, 250, 237, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Prose styles for article content */
+.prose h2 {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 800;
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+  color: #1b1c15;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+.prose h3 {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: #565f48;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose h4 {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #655b47;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+}
+.prose a {
+  color: #8e4c31;
+  text-decoration: underline;
+  text-decoration-color: rgba(142, 76, 49, 0.3);
+  text-underline-offset: 3px;
+  transition: all 0.15s;
+}
+.prose a:hover {
+  color: #71361c;
+  text-decoration-color: #71361c;
+}
+.prose ul, .prose ol {
+  margin: 0 0 1.25rem 1.5rem;
+  line-height: 1.7;
+}
+.prose li { margin-bottom: 0.4rem; }
+.prose strong { color: #1b1c15; font-weight: 700; }
+.prose blockquote {
+  border-left: 3px solid #8e4c31;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background: rgba(142, 76, 49, 0.05);
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  color: #454840;
+}
+.prose blockquote p:last-child { margin-bottom: 0; }
+.prose hr {
+  border: none;
+  height: 1px;
+  background: #e5e3d7;
+  margin: 2.5rem 0;
+}
+
+/* Tables in prose */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin: 1.5rem 0;
+  background: #ffffff;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 32px 64px -12px rgba(27, 28, 21, 0.06);
+}
+.prose thead {
+  background: #565f48;
+  color: #ffffff;
+}
+.prose th {
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: 'Manrope', sans-serif;
+}
+.prose td {
+  padding: 0.6rem 0.85rem;
+  border-top: 1px solid #eae8dd;
+  vertical-align: top;
+}
+.prose tbody tr:nth-child(even) { background: #f6f4e8; }
+.prose tbody tr:hover { background: #eae8dd; }
+.prose caption {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8e4c31;
+  text-align: left;
+  padding: 0.5rem 0;
+  caption-side: top;
+}
+
+/* Responsive table wrapper */
+.prose .table-wrapper,
+.prose div:has(> table) {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem -0.5rem;
+  padding: 0 0.5rem;
+}
+
+/* Alert boxes from content */
+.prose .nb-alert,
+.prose .smilejet-cta {
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.prose .nb-alert {
+  background: rgba(86, 95, 72, 0.06);
+  border-left: 4px solid #565f48;
+}
+.prose .nb-alert strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #565f48;
+}
+.prose .smilejet-cta {
+  background: #565f48;
+  color: #ffffff;
+  text-align: center;
+}
+.prose .smilejet-cta a {
+  color: #ffffff;
+  font-weight: 700;
+}
+.prose .smilejet-cta strong {
+  color: #ffffff;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* FAQ styling */
+.faq-item {
+  border-bottom: 1px solid #eae8dd;
+  padding: 1.25rem 0;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1b1c15;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.4;
+}
+.faq-a {
+  padding: 0.75rem 0 0 2rem;
+  color: #454840;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* TOC */
+.toc {
+  background: #f6f4e8;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.toc-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8e4c31;
+  margin-bottom: 0.75rem;
+}
+.toc ul { list-style: none; padding-left: 1rem; margin: 0; }
+.toc > nav > ul { padding-left: 0; }
+.toc li { margin: 0.3rem 0; }
+.toc a {
+  color: #454840;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: block;
+  padding: 0.2rem 0;
+  transition: color 0.15s;
+}
+.toc a:hover { color: #8e4c31; }
+
+@media print {
+  .glass-header, .glass-bottom, .fab-btn { display: none !important; }
+}
+</style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+  {{ partial "header.html" . }}
+  <main class="pt-20 pb-28 md:pb-12">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+</body>
+</html>

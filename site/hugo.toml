@@ -1,0 +1,73 @@
+baseURL = "https://nhatrang.pages.dev/"
+theme = "notebook"
+enableRobotsTXT = true
+buildFuture = true
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+[pagination]
+  pagerSize = 20
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+
+[params]
+  description = "The definitive notebook-style guide to dental clinics, treatments, and dental tourism in Nha Trang, Vietnam. Verified pricing, clinic comparisons, and travel tips."
+  author = "Nha Trang Dental Guide"
+  mainSite = "https://smilejet.app"
+  mainSiteName = "SmileJet"
+  locale = "en_US"
+
+[sitemap]
+  changeFreq = "weekly"
+  priority = 0.8
+  filename = "sitemap.xml"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[outputFormats.JSON]
+  mediaType = "application/json"
+  baseName = "index"
+
+[languages]
+  [languages.en]
+    languageCode = "en"
+    languageName = "English"
+    title = "Nha Trang Dental Guide — Your Notebook to Dental Care in Nha Trang"
+    weight = 1
+    [languages.en.params]
+      locale = "en_US"
+
+[languages.en.menu]
+  [[languages.en.menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[languages.en.menu.main]]
+    name = "Clinics"
+    url = "/clinics/"
+    weight = 2
+  [[languages.en.menu.main]]
+    name = "Treatments"
+    url = "/treatments/"
+    weight = 3
+  [[languages.en.menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 4
+  [[languages.en.menu.main]]
+    name = "SmileJet →"
+    url = "https://smilejet.app"
+    weight = 99

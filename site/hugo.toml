@@ -50,6 +50,24 @@ defaultContentLanguageInSubdir = false
     [languages.en.params]
       locale = "en_US"
 
+  [languages.ru]
+    languageCode = "ru"
+    languageName = "Русский"
+    title = "Стоматология в Нячанге — Полный гид по лечению зубов"
+    weight = 2
+    [languages.ru.params]
+      locale = "ru_RU"
+      description = "Полный гид по стоматологическим клиникам, процедурам и стоматологическому туризму в Нячанге, Вьетнам. Проверенные цены, сравнение клиник и советы для путешественников."
+
+  [languages.ko]
+    languageCode = "ko"
+    languageName = "한국어"
+    title = "나트랑 치과 가이드 — 베트남 나트랑 치과 관광 안내"
+    weight = 3
+    [languages.ko.params]
+      locale = "ko_KR"
+      description = "베트남 나트랑의 치과 클리닉, 치료, 치과 관광에 대한 완벽한 가이드. 검증된 가격, 클리닉 비교, 여행 팁."
+
 [languages.en.menu]
   [[languages.en.menu.main]]
     name = "Home"
@@ -68,6 +86,50 @@ defaultContentLanguageInSubdir = false
     url = "/posts/"
     weight = 4
   [[languages.en.menu.main]]
+    name = "SmileJet →"
+    url = "https://smilejet.app"
+    weight = 99
+
+[languages.ru.menu]
+  [[languages.ru.menu.main]]
+    name = "Главная"
+    url = "/ru/"
+    weight = 1
+  [[languages.ru.menu.main]]
+    name = "Клиники"
+    url = "/ru/clinics/"
+    weight = 2
+  [[languages.ru.menu.main]]
+    name = "Процедуры"
+    url = "/ru/treatments/"
+    weight = 3
+  [[languages.ru.menu.main]]
+    name = "Статьи"
+    url = "/ru/posts/"
+    weight = 4
+  [[languages.ru.menu.main]]
+    name = "SmileJet →"
+    url = "https://smilejet.app"
+    weight = 99
+
+[languages.ko.menu]
+  [[languages.ko.menu.main]]
+    name = "홈"
+    url = "/ko/"
+    weight = 1
+  [[languages.ko.menu.main]]
+    name = "클리닉"
+    url = "/ko/clinics/"
+    weight = 2
+  [[languages.ko.menu.main]]
+    name = "치료"
+    url = "/ko/treatments/"
+    weight = 3
+  [[languages.ko.menu.main]]
+    name = "블로그"
+    url = "/ko/posts/"
+    weight = 4
+  [[languages.ko.menu.main]]
     name = "SmileJet →"
     url = "https://smilejet.app"
     weight = 99

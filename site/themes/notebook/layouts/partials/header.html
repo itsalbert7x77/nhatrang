@@ -12,12 +12,12 @@
     <div class="flex items-center gap-2">
       {{ if .IsTranslated }}
         {{ range .Translations }}
-        <a href="{{ .Permalink }}" class="px-2 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-[10px] font-bold tracking-widest uppercase no-underline transition-colors" title="{{ .Language.LanguageName }}">{{ if eq .Language.Lang "ru" }}RU{{ else }}EN{{ end }}</a>
+        <a href="{{ .Permalink }}" class="px-2 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-[10px] font-bold tracking-widest uppercase no-underline transition-colors" title="{{ .Language.LanguageName }}">{{ if eq .Language.Lang "ru" }}RU{{ else if eq .Language.Lang "ko" }}KO{{ else }}EN{{ end }}</a>
         {{ end }}
       {{ else }}
         {{ range .Site.Languages }}
           {{ if ne .Lang $.Site.Language.Lang }}
-          <a href="/{{ .Lang }}/" class="px-2 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-[10px] font-bold tracking-widest uppercase no-underline transition-colors" title="{{ .LanguageName }}">{{ if eq .Lang "ru" }}RU{{ else }}EN{{ end }}</a>
+          <a href="/{{ if eq .Lang "en" }}{{ else }}{{ .Lang }}/{{ end }}" class="px-2 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest rounded-full text-[10px] font-bold tracking-widest uppercase no-underline transition-colors" title="{{ .LanguageName }}">{{ if eq .Lang "ru" }}RU{{ else if eq .Lang "ko" }}KO{{ else }}EN{{ end }}</a>
           {{ end }}
         {{ end }}
       {{ end }}

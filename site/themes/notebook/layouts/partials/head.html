@@ -12,6 +12,9 @@
 <meta name="author" content="{{ .Site.Params.author }}">
 <link rel="canonical" href="{{ .Permalink }}">
 
+<!-- Noindex tag/taxonomy pages to prevent index bloat -->
+{{ if .Data.Singular }}<meta name="robots" content="noindex, follow">{{ end }}
+
 <!-- Open Graph -->
 <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">

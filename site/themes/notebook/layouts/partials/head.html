@@ -7,6 +7,9 @@
 <!-- Favicon -->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
+<!-- Google Search Console verification -->
+{{ if .IsHome }}<meta name="google-site-verification" content="poefLBfuPTuVIVd8TaPP0E6_d7bso4ELdBsybxh8Izc" />{{ end }}
+
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
 <meta name="author" content="{{ .Site.Params.author }}">
